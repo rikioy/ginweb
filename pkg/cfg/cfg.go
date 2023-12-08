@@ -1,6 +1,7 @@
 package cfg
 
 import (
+	"github.com/fsnotify/fsnotify"
 	"github.com/rikioy/ginweb/pkg/env"
 	"github.com/spf13/viper"
 )
@@ -31,6 +32,14 @@ func ReadInConfig() error {
 		cfg.viper.SetConfigName(GINWEB_FILENAME + "_" + cfg.env)
 	}
 	return cfg.viper.ReadInConfig()
+}
+
+func OnConfigChange(onConfigChangeFunc func(e fsnotify.Event)) {
+	cfg.viper.OnConfigChange(onConfigChangeFunc)
+}
+
+func WatchConfig() {
+	cfg.viper.WatchConfig()
 }
 
 func SetEnv(env string) {
